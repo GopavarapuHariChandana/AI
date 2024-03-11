@@ -1,0 +1,310 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>AI based tool For Preliminary Diagnosis</title>
+
+    <link
+      href="/static/css/bootstrap.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link
+      href="/static/css/style.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="application/x-javascript">
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    </script>
+    <link
+      href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/static/css/flexslider.css"
+      type="text/css"
+      media="screen"
+    />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/modernizr.custom.js"></script>
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h5 {
+      font-weight: 100px;
+      color: rgb(119, 81, 9);
+    }
+    ul {
+      list-style-type: none;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+  <body>
+    <!-- header -->
+    <div class="banner1">
+      <div class="container">
+        <div class="header">
+          <div class="head-nav">
+            <span class="menu"> </span>
+            <ul class="cl-effect-1">
+              <li class="active"><a href="/upload">Classification</a></li>
+              <li><a href="/doctor_info">Doctor Info</a></li>
+              <li><a href="/signin">Sign Out</a></li>
+              <div class="clearfix"></div>
+            </ul>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+        <!-- script-for-nav -->
+        <script>
+          $("span.menu").click(function () {
+            $(".head-nav ul").slideToggle(300, function () {
+              // Animation complete.
+            });
+          });
+        </script>
+        <!-- script-for-nav -->
+        <div class="logo1" style="font-size: xx-large">
+          <h1>
+            <b
+              >Diagnostic Reports</b
+            >
+          </h1>
+        </div>
+      </div>
+    </div>
+    <!-- header -->
+    <div class="main_bg">
+      <div class="container">
+        <div class="main">
+          <div class="section group">
+            <div class="col span_1_of_2">
+              <div class="contact_info">
+                {% with messages = get_flashed_messages() %} {% if messages %}
+                <ul class="flashes">
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %} {% endwith %}
+              </div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="col span_2_of_4">
+              <div class="contact-form">
+                <h3 class="style">Diagnostic Report</h3>
+
+                <div
+                  class="row"
+                  style="
+                    border: 1px solid;
+                    flex-direction: column;
+                    align-items: center;
+                  "
+                >
+                  <div class="col-6 col-md-6">
+                    <img
+                      src=" {{url_for('send_image', filename=image_name)}}"
+                      style="
+                        width: 427px;
+                        height: 300px;
+                        border-radius: 50%;
+                        border: 1px solid greenyellow;
+                      "
+                    />
+                  </div>
+                  <div class="col-6 col-md-6">
+                    <b>Disease: </b>{{text}}<br />
+                    <b>Causes of Disease:</b> {{msg}}
+                    <b>Disease Severity is:</b> {{msg1}}<br />
+
+                    {% block body %} {% if text == "Acne and Rosacea" %}
+                    <!-- <div class="container"> -->
+                    <h5>Recommended Remedies for Acne and Rosacea</h5>
+                    <p>Treatment involves topical products (e.g., brimonidine for flushing, azelaic acid for bumps), oral antibiotics (for more severe cases), and laser therapy to reduce blood vessels. Self-care includes gentle skin care, identifying triggers, and sun protection. Regular follow-up is crucial, as symptoms may recur.</p>
+                    <!-- </div> -->
+                    {% elif text == "Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions" %}
+                      <h5>Recommended Remedies for Actinic Keratosis</h5>
+                      <p>Cryotherapy: Freezing the lesion to destroy abnormal cells.</p>
+                      <p>Topical Treatments: Applying creams like 5-fluorouracil or imiquimod to the affected area.</p>
+                      <p>Chemical Peels: Using chemical solutions to peel off the top layers of skin.</p>
+                      <p>Laser Therapy: Removing the affected skin with a precise laser treatment.</p>
+                    {% elif text == "Atopic Dermatitis" %}
+                      <h5>Recommended Remedies for Atopic Dermatitis</h5>
+                      <p>Management involves moisturizing the skin, avoiding triggers, and using topical corticosteroids or immunomodulators to reduce inflammation. Severe cases may require systemic medications, and ongoing care aims to minimize flare-ups and enhance skin barrier function.</p>
+                    {% elif text == "Bullous Disease" %}
+                      <h5>Recommended Remedies for Bullous Disease</h5>
+                      <p>Treatment involves addressing the underlying immune system dysfunction with corticosteroids, immunosuppressive drugs, or biologics. Additionally, wound care and protection against infection are essential for managing the blisters and promoting skin healing.</p>
+                    {% elif text == "Cellulitis Impetigo and other Bacterial Infections" %}
+                      <h5>Recommended Remedies for Bacterial Infections</h5>
+                      <p>Treatment typically includes antibiotics, either topical or oral, depending on the severity of the infection. Keeping the affected area clean, using prescribed medications, and practicing good hygiene are crucial for effective management.</p>
+                    {% elif text == "Eczema Disease" %}
+                      <h5>Recommended Remedies for Eczema</h5>
+                      <p>Management involves moisturizing the skin, avoiding triggers like certain soaps or fabrics, and using prescribed topical corticosteroids or immunomodulators to alleviate inflammation. Additionally, antihistamines may help relieve itching, promoting a better quality of life for those with eczema.</p>
+                    {% elif text == "Exanthems and Drug Eruptions" %}
+                      <h5>Recommended Remedies for Exanthems and Drug Eruptions</h5>
+                      <p>Treatment involves identifying and discontinuing the causative agent, whether it be a medication or addressing the underlying infection. Symptomatic relief can be provided through antihistamines or topical corticosteroids. Severe cases may require medical attention, and in drug-induced eruptions, alternative medications may be prescribed.</p>
+                    {% elif text == "Hair Loss Photos Alopecia and other Hair Diseases" %}
+                      <h5>Recommended Remedies for Hair Loss and Alopecia</h5>
+                      <p>Treatment depends on the specific cause of hair loss. Options include medications, topical treatments, and in some cases, procedures like hair transplantation. Consulting with a dermatologist or healthcare professional is essential for an accurate diagnosis and tailored treatment plan.</p>
+                    {% elif text == "Herpes HPV and other STDs Photos" %}
+                      <h5>Recommended Remedies for Herpes, HPV, and STDs</h5>
+                      <p>Management involves antiviral medications for herpes, and HPV vaccines are available for prevention. Safe sexual practices and regular screenings are crucial for STD prevention and early detection. Consultation with a healthcare professional is important for proper diagnosis and guidance on treatment and prevention strategies.</p>
+                    {% elif text == "Light Diseases and Disorders of Pigmentation" %}
+                      <h5>Recommended Remedies for Light Diseases and Pigmentation Disorders</h5>
+                      <p>Management varies based on the specific condition. Treatment may involve topical medications, phototherapy, or laser therapy. Sun protection is essential to prevent exacerbation. Consultation with a dermatologist helps determine an appropriate treatment plan tailored to the individual's condition.</p>
+                    {% elif text == "Lupus and other Connective Tissue diseases" %}
+                      <h5>Recommended Remedies for Lupus and Connective Tissue Diseases</h5>
+                      <p>Treatment aims to control symptoms and may include anti-inflammatory medications, immunosuppressants, and lifestyle adjustments. Sun protection is crucial, as sunlight can trigger lupus flares. Management involves collaboration between rheumatologists and dermatologists for a comprehensive approach. Regular follow-ups help monitor the disease and adjust treatment as needed.</p>
+                    {% elif text == "Melanoma Skin Cancer Nevi and Moles" %}
+                      <h5>Recommended Remedies for Melanoma, Nevi, and Moles</h5>
+                      <p>Treatment involves surgical removal of the melanoma. In advanced cases, additional therapies like immunotherapy, targeted therapy, or chemotherapy may be recommended. Regular skin checks and sun protection are essential for prevention. Consult a dermatologist promptly for any suspicious changes in nevi or moles.</p>
+                    {% elif text == "Nail Fungus and other Nail Disease" %}
+                      <h5>Recommended Remedies for Nail Fungus and Nail Diseases</h5>
+                      <p>Treatment for nail fungus often involves antifungal medications, topical or oral. Keeping nails clean and trimmed, avoiding moisture, and wearing breathable footwear can aid in prevention. For other nail diseases, proper diagnosis by a dermatologist is essential for determining appropriate remedies, which may include medications or surgical interventions.</p>
+                    {% elif text == "Poison Ivy Photos and other Contact Dermatitis" %}
+                      <h5>Recommended Remedies for Poison Ivy and Contact Dermatitis</h5>
+                      <p>For poison ivy and contact dermatitis, treatment involves washing the affected area, applying cool compresses, and using over-the-counter or prescription corticosteroid creams to alleviate inflammation. Avoiding the triggering substances is crucial to preventing recurrence. If severe or widespread, consult a healthcare professional for appropriate care.</p>
+                    {% elif text == "Psoriasis pictures Lichen Planus and related diseases" %}
+                      <h5>Recommended Remedies for Psoriasis, Lichen Planus, and related diseases</h5>
+                      <p>Treatment for psoriasis and lichen planus involves topical steroids, phototherapy, and systemic medications in severe cases. Management focuses on symptom control, reducing inflammation, and preventing flare-ups. Consultation with a dermatologist is recommended for personalized care.</p>
+                    {% elif text == "Scabies Lyme Disease and other Infestations and Bites" %}
+                      <h5>Recommended Remedies for Scabies, Lyme Disease, and Infestations</h5>
+                      <p>For scabies, topical medications like permethrin are commonly prescribed. Lyme disease requires antibiotics, and prevention involves avoiding tick exposure. Treatment for other infestations and bites varies and may include topical or oral medications. Consultation with a healthcare professional is advised for proper diagnosis and treatment.</p>
+                    {% elif text == "Seborrheic Keratoses and other Benign Tumors" %}
+                      <h5>Recommended Remedies for Seborrheic Keratoses and Benign Tumors</h5>
+                      <p>Treatment for seborrheic keratoses may involve cryotherapy, curettage, or laser therapy for removal. Benign tumors are typically removed surgically if necessary for cosmetic reasons or if causing discomfort. Consultation with a dermatologist helps determine the appropriate approach based on the characteristics of the growth.</p>
+                    {% elif text == "Systemic Disease" %}
+                      <h5>Recommended Remedies for Systemic Diseases affecting the Skin</h5>
+                      <p>Management of systemic diseases involves addressing the underlying condition. Collaboration between dermatologists and other specialists is essential for comprehensive care. Treatment may include medications to control symptoms and lifestyle modifications. Regular follow-ups help monitor the skin's response and adjust the treatment plan as needed.</p>
+                    {% elif text == "Tinea Ringworm Candidiasis and other Fungal Infections" %}
+                      <h5>Recommended Remedies for Tinea, Ringworm, Candidiasis, and Fungal Infections</h5>
+                      <p>Antifungal medications, either topical or oral, are commonly prescribed for fungal infections. Keeping the affected area clean and dry is crucial for recovery and prevention. Consultation with a healthcare professional helps determine the appropriate antifungal treatment based on the specific type of infection.</p>
+                    {% elif text == "Urticaria Hives" %}
+                      <h5>Recommended Remedies for Urticaria (Hives)</h5>
+                      <p>Management of hives involves identifying and avoiding triggers, using antihistamines for symptomatic relief, and in some cases, corticosteroids for severe flare-ups. Consultation with a healthcare professional helps determine the underlying cause and establish an effective treatment plan.</p>
+                    {% elif text == "Vascular Tumors" %}
+                      <h5>Recommended Remedies for Vascular Tumors</h5>
+                      <p>Treatment for vascular tumors depends on the specific type. Options may include laser therapy, surgical removal, or medical management. Consultation with a dermatologist is crucial for accurate diagnosis and tailored treatment.</p>
+                    {% elif text == "Vasculitis" %}
+                      <h5>Recommended Remedies for Vasculitis</h5>
+                      <p>Management of vasculitis involves addressing the underlying immune system dysfunction. Treatment may include corticosteroids, immunosuppressive drugs, or biologics. Collaboration between dermatologists and rheumatologists is essential for comprehensive care. Regular follow-ups help monitor the disease and adjust the treatment plan as needed.</p>
+                    {% elif text == "Warts Molluscum and other Viral Infections" %}
+                      <h5>Recommended Remedies for Warts, Molluscum, and other Viral Infections</h5>
+                      <p>Treatment for viral infections may involve topical medications, cryotherapy, or other procedures to remove the lesions. Prevention strategies include avoiding direct contact with infected individuals and practicing good hygiene. Consultation with a dermatologist helps determine the appropriate approach based on the specific viral infection.</p>
+                    <!-- </div> -->
+                    {% else %}
+                    <h5>No disease found</h5>
+                    <p>Upload Disease Image</p>
+                    {% endif %} {% endblock %}
+                  </div>
+                </div>
+                <a href="/upload" class="btn btn-info">Return Back</a>
+              </div>
+              <table style="margin-left: 394px;"><b>
+                      
+                <th style="border: 3px solid black;color:black">Name</th>
+                <th style="border: 3px solid black;color:black">Email</th>
+                <th style="border: 3px solid black;color:black">Gender</th>
+                <th style="border: 3px solid black;color:black">Age</th>
+                <th style="border: 3px solid black;color:black">Phone Number</th>
+                <th style="border: 3px solid black;color:black">Experience</th>
+                <th style="border: 3px solid black;color:black">Hospital Name</th>
+                <th style="border: 3px solid black;color:black">Address</th>
+                <th style="border: 3px solid black;color:black">Appointment</th>
+                <th style="border: 3px solid black;color:black">Let's Chat</th>
+
+
+    {% for id,name,email,pass,age,gender,hname,addr,exp,ph in data %}
+    <tr>
+        <td style="border: 3px solid black;color:black">{{name}}</td>
+        <td style="border: 3px solid black;color:black">{{email}}</td>
+        <td style="border: 3px solid black;color:black">{{gender}}</td>
+        <td style="border: 3px solid black;color:black">{{age}}</td>
+        <td style="border: 3px solid black;color:black">{{ph}}</td>
+        <td style="border: 3px solid black;color:black">{{exp}}</td>
+        <td style="border: 3px solid black;color:black">{{hname}}</td>
+        <td style="border: 3px solid black;color:black">{{addr}}</td>
+        <td style="border: 3px solid black;color:black"><a href="{{ url_for("appointment", name=name, email=email, hname=hname, addr=addr)}}" class="btn btn-success">Book</a></td>
+        <td style="border: 3px solid black;color:black"><a href="{{ url_for("expertchat", email=email)}}" class="btn btn-info">Chat</a></td>
+    </tr>
+    {% endfor %}
+
+
+            </b> </table>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="/about">about us</a></li>
+              <li><a href="/">Home</a></li>
+              <li><a href="#">Risk Detection</a></li>
+              <li><a href="#">How It Works</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="#">Github</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Issues</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Help</h4>
+            <ul>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">support</a></li>
+              <li><a href="#">Troubleshooting</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>follow us</h4>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

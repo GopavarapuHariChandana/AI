@@ -1,0 +1,182 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Sign In</title>
+
+    <link
+      href="/static/css/bootstrap.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link
+      href="/static/css/style.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="application/x-javascript">
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    </script>
+    <link
+      href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/static/css/flexslider.css"
+      type="text/css"
+      media="screen"
+    />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/modernizr.custom.js"></script>
+  </head>
+  <body>
+    <!-- header -->
+    <div class="banner1">
+      <div class="container">
+        <div class="header">
+          <div class="head-nav">
+            <span class="menu"> </span>
+            <ul class="cl-effect-1">
+              <li><a href="/">Home</a></li>
+              <li><a href="/about">about</a></li>
+              <li class="active"><a href="/contact">Patient</a></li>
+              <li><a href="/doctor">Doctor</a></li>
+              <li><a href="/admin">Admin</a></li>
+              <div class="clearfix"></div>
+            </ul>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+        <!-- script-for-nav -->
+        <script>
+          $("span.menu").click(function () {
+            $(".head-nav ul").slideToggle(300, function () {
+              // Animation complete.
+            });
+          });
+        </script>
+        <!-- script-for-nav -->
+        <div class="logo1" style="font-size: xx-large">
+          <h1>
+            <b
+              >Sign In</b
+            >
+          </h1>
+        </div>
+      </div>
+    </div>
+    <!-- header -->
+    <div class="main_bg">
+      <div class="container">
+        <div class="main">
+          <div class="section group">
+            <div class="col span_1_of_2">
+              <div class="contact_info">
+                {% with messages = get_flashed_messages() %} {% if messages %}
+                <ul class="flashes">
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %} {% endwith %}
+
+                  <a href="/contact" class="btn btn-info">Sign Up Here</a>
+                </div>
+              </div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="col span_2_of_4">
+              <div class="contact-form">
+                <h3 class="style">Sign In Page</h3>
+
+                <form method="post" action="/signin">
+                  <div>
+                    <span><label>E-MAIL</label></span>
+                    <span
+                      ><input name="userEmail" type="text" class="textbox"
+                    /></span>
+                  </div>
+                  <div>
+                    <span><label>PASSWORD</label></span>
+                    <span
+                      ><input
+                        name="userPassword"
+                        type="password"
+                        class="form-control"
+                        class="textbox"
+                    /></span>
+                  </div>
+
+                  <div>
+                    <span><input type="submit" value="Submit" /></span>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="footer-col">
+            <h4>Services</h4>
+            <ul>
+              <li><a href="/about">about us</a></li>
+              <li><a href="/">Home</a></li>
+              <li><a href="#">Risk Detection</a></li>
+              <li><a href="#">How It Works</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Community</h4>
+            <ul>
+              <li><a href="#">Github</a></li>
+              <li><a href="#">Twitter</a></li>
+              <li><a href="#">Issues</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>Help</h4>
+            <ul>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">support</a></li>
+              <li><a href="#">Troubleshooting</a></li>
+            </ul>
+          </div>
+          <div class="footer-col">
+            <h4>follow us</h4>
+            <div class="social-links">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/static/js/address.js"></script>
+  </body>
+</html>

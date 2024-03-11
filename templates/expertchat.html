@@ -1,0 +1,129 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Agriculture science a Bootstarp Website Template | Home :: w3layouts
+    </title>
+    <link
+      href="/static/css/bootstrap.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link
+      href="/static/css/style.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="application/x-javascript">
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    </script>
+    <link
+      href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/static/css/flexslider.css"
+      type="text/css"
+      media="screen"
+    />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/modernizr.custom.js"></script>
+  </head>
+  <body>
+    <!-- header -->
+    <div class="banner1">
+      <div class="container">
+        <div class="header">
+          <div class="head-nav">
+            <span class="menu"> </span>
+            <ul class="cl-effect-1">
+                <li ><a href="/upload">Classification</a></li>
+                <li class="active"><a href="/doctor_info">Doctor Info</a></li>
+                <li><a href="/history">History</a></li>
+                <li ><a href="/signin">Sign Out</a></li>
+
+                <div class="clearfix"></div>
+              </ul>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+        <!-- script-for-nav -->
+        <script>
+          $("span.menu").click(function () {
+            $(".head-nav ul").slideToggle(300, function () {
+              // Animation complete.
+            });
+          });
+        </script>
+        <!-- script-for-nav -->
+        <div class="logo1" style="font-size: xx-large;">
+          <h1>
+            <b
+              >AI based tool For Preliminary Diagnosis Of Dermatological
+              Manifestationsing</b
+            >
+          </h1>
+        </div>
+      </div>
+    </div>
+    <!-- header -->
+    <div class="main_bg">
+      <div class="container">
+        <div class="main">
+          <div class="section group">
+            <div class="col span_1_of_2">
+                <section class="section coming-soon" style="padding-top: 150px; padding-bottom: 100px">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <div class="card">
+                                    <div class="card-body" style="height: 340px; overflow: scroll;">
+                                        <div class="mb-3">
+                                            {% for data in alldata %}
+                                            {% if data[1]==farmer_email %}
+                                            <div style="text-align:right">{{data[5]}} : {{data[1]}}</div>
+                                            {% else %}
+                                            <div style="text-align:left"> {{data[5]}} : {{data[1]}}</div>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <form method="post" class="form-control" action="{{url_for("expertchat", email="{{data[0][2]}}")}}">
+                                    <input name="messages" type="text" style="text-align:center;" class="form-control"
+                                        id="floatingInput" placeholder="Enter your message" required>
+                                        <input type="hidden" name="email" value="{{expert_email}}"
+
+                                    <center><button type="submit" class="btn btn-info">Submit</button></center>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </body>
+</html>

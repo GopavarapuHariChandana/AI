@@ -1,0 +1,185 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      AISkinXpert
+    </title>
+    <link
+      href="/static/css/bootstrap.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <link
+      href="/static/css/style.css"
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="application/x-javascript">
+      addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+    </script>
+    <link
+      href="http://fonts.googleapis.com/css?family=Open+Sans:400,600,300,700,800"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="/static/css/flexslider.css"
+      type="text/css"
+      media="screen"
+    />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/modernizr.custom.js"></script>
+  </head>
+  <body>
+    <!-- header -->
+    <div class="banner1">
+      <div class="container">
+        <div class="header">
+          <div class="head-nav">
+            <span class="menu"> </span>
+            <ul class="cl-effect-1">
+              <li class="active"><a href="/userdash">Dash Board</a></li>
+              <li><a href="/patient">Patient's Info</a></li>
+              <li><a href="/expert_info">Doctor's Info</a></li>
+              <li><a href="/expert_info">FeedBack</a></li>
+              <li><a href="/admin">Sign Out</a></li>
+
+              <div class="clearfix"></div>
+            </ul>
+          </div>
+
+          <div class="clearfix"></div>
+        </div>
+        <!-- script-for-nav -->
+        <script>
+          $("span.menu").click(function () {
+            $(".head-nav ul").slideToggle(300, function () {
+              // Animation complete.
+            });
+          });
+        </script>
+        <!-- script-for-nav -->
+        <div class="logo1" style="font-size: xx-large">
+          <h1>
+            <b
+              >Feedback Details</b
+            >
+          </h1>
+        </div>
+      </div>
+    </div>
+    <!-- header -->
+    <div class="main_bg">
+      <div class="container">
+        <div class="main">
+          <div class="section group">
+            <div class="col span_1_of_2">
+              <div class="contact_info">
+                {% with messages = get_flashed_messages() %} {% if messages %}
+                <ul class="flashes">
+                  {% for message in messages %}
+                  <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+                {% endif %} {% endwith %}
+              </div>
+              <div class="clear"></div>
+            </div>
+
+            <div class="col span_2_of_4">
+              <div class="contact-form">
+                <h3 class="style">Doctor Information</h3>
+
+                <style>
+                  table,
+                  td {
+                    padding: 10px;
+                    border: 1px solid rgb(6, 2, 68);
+                    border-collapse: collapse;
+                  }
+                </style>
+                <table>
+                  <b>
+                    <th style="border: 3px solid black; color: black">
+                      Patient Name
+                    </th>
+                    <th style="border: 3px solid black; color: black">
+                      Patient Email
+                    </th>
+                    <th style="border: 3px solid black; color: black">Name</th>
+                    <th style="border: 3px solid black; color: black">Email</th>
+                    <th style="border: 3px solid black; color: black">
+                      Hospital Name
+                    </th>
+                    <th style="border: 3px solid black; color: black">
+                      Address
+                    </th>
+                    <th style="border: 3px solid black; color: black">
+                      App Raised Date
+                    </th>
+                    <th style="border: 3px solid black; color: black">
+                      App Accepted Date
+                    </th>
+                    <th style="border: 3px solid black; color: black">
+                      FeedBack
+                    </th>
+
+                    {% for
+                    id,pname,pemail,age,gender,bmi,infection,smoking,days,image,disease,Severity,date,time,hname,addr,name,demail,accpt_date,status,feedback
+                    in data %}
+                    <tr>
+                      <td style="border: 3px solid black; color: black">
+                        {{pname}}
+                      </td>
+                      <td style="border: 3px solid black; color: black">
+                        {{pemail}}
+                      </td>
+                      <td style="border: 3px solid black; color: black">
+                        {{name}}
+                      </td>
+                      <td style="border: 3px solid black; color: black">
+                        {{demail}}
+                      </td>
+                      <td style="border: 3px solid black; color: black">
+                        {{hname}}
+                      </td>
+                      <td style="border: 3px solid black; color: black">
+                        {{addr}}
+                      </td>
+                      <td style="border: 3px solid black; color: black">
+                        {{date}}
+                      </td>
+                      <td style="border: 3px solid black; color: black">
+                        {{accpt_date}}
+                      </td>
+                      <td style="border: 3px solid black; color: black">
+                        {{feedback}}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </b>
+                </table>
+              </div>
+            </div>
+            <div class="clear"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
