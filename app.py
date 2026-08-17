@@ -1,28 +1,30 @@
 from flask import Flask,render_template,session,flash,redirect,request,send_from_directory,url_for,jsonify
 # import jsonify
-import mysql.connector, os
+#import mysql.connector, 
+import os
 import pandas as pd
 from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
-from datetime import datetime
 from sklearn.tree import DecisionTreeClassifier
 import datetime
 import time,requests
 from dotenv import load_dotenv
+import psycopg2
 
 load_dotenv()
 app=Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 def data_bace():
-    db = mysql.connector.connect(
+    db = psycopg2.connect(
         host=os.getenv("DB_HOST"),
+        port=5432,
+        database=os.getenv("DB_NAME"),
         user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
+        password=os.getenv("DB_PASSWORD")
     )
     cur = db.cursor()
     return db, cur
@@ -61,8 +63,8 @@ def signin():
         password = request.form['userPassword']
 
         db,cur=data_bace()
-        sql="select * from users where user_Email='"+useremail+"' and Password='"+password+"'"
-        cur.execute(sql)
+        sql = """SELECT * FROM users WHERE user_email = %s AND password = %s"""
+        cur.execute(sql, (useremail, password))
         data=cur.fetchall()
         db.commit()
         if data==[]:
@@ -85,8 +87,8 @@ def contact():
         mobile = request.form['userPhone']
         address = request.form['userAddr']
         db,cur=data_bace()
-        sql="select * from users where user_Email='%s' "%(useremail)
-        cur.execute(sql)
+        sql = "SELECT * FROM users WHERE user_email = %s"
+        cur.execute(sql, (useremail,))
         data=cur.fetchall()
         db.commit()
         if data==[]:
@@ -119,11 +121,11 @@ def upload():
         smoking=float(request.form['smoking'])
         infection=float(request.form['infection'])
         fn=myfile.filename
-        mypath=os.path.join('static/disease/', fn)
+        mypath = os.path.join("static", "disease", fn)
         myfile.save(mypath)
         print(mypath)
         lee=[age,gender,days,bmi,smoking,infection]
-        filename = (r'models/LinearDiscriminantAnalysis.sav')
+        filename = os.path.join("models","LinearDiscriminantAnalysis.sav")
         model = pickle.load(open(filename, 'rb'))
         result =model.predict([lee])
         result=result[0]
@@ -137,7 +139,7 @@ def upload():
         if fn.split('.')[-1] not in accepted_formated:
             flash("Image formats only Accepted","Danger")
             return render_template("upload.html")
-        new_model = load_model(r"models\my_model1 (2).h5")
+        new_model = load_model(os.path.join("models", "my_model1 (2).h5"))
         test_image = image.load_img(mypath, target_size=(224, 224))
         test_image = image.img_to_array(test_image)
         test_image = np.expand_dims(test_image, axis=0)
@@ -267,16 +269,16 @@ def send_image(filename):
 @app.route('/expertdash')
 def expertdash():
     db,cur=data_bace()
-    sql="select * from users where user_Email='"+session['useremail']+"' "
-    cur.execute(sql)
+    sql = "SELECT * FROM users WHERE user_email = %s"
+    cur.execute(sql, (session['useremail'],))
     data=cur.fetchall()
     return render_template('expertdash.html', data=data)
 
 @app.route('/doctor_info',methods=['GET','POST'])
 def doctor_info():
     db,cur=data_bace()
-    sql="select * from appointment where pemail='"+session['useremail']+"'"
-    cur.execute(sql)
+    sql = "SELECT * FROM appointment WHERE pemail = %s"
+    cur.execute(sql, (session['useremail'],))
     data=cur.fetchall()
     db.commit()
     db.close()
@@ -372,8 +374,8 @@ def doctor():
         gender = request.form['gender']
         hname = request.form['hname']
         db,cur=data_bace()
-        sql="select * from doctor where Email='%s' "%(useremail)
-        cur.execute(sql)
+        sql = "SELECT * FROM doctor WHERE email = %s"
+        cur.execute(sql, (useremail,))
         data=cur.fetchall()
         db.commit()
         if data==[]:
@@ -397,8 +399,8 @@ def sigdoctorinnin():
         password = request.form['userPassword']
 
         db,cur=data_bace()
-        sql="select * from doctor where Email='"+useremail+"' and Password='"+password+"'"
-        cur.execute(sql)
+        sql = """SELECT * FROM doctor WHERE email = %s AND password = %s"""
+        cur.execute(sql, (useremail, password))
         data=cur.fetchall()
         db.commit()
         if data==[]:
@@ -482,8 +484,8 @@ from googletrans import Translator
 @app.route('/history')
 def history():
     db, cur = data_bace()
-    sql="select * from disease_info where email='"+session['useremail']+"'"
-    cur.execute(sql)
+    sql = "SELECT * FROM disease_info WHERE email = %s"
+    cur.execute(sql, (session['useremail'],))
     data = cur.fetchall()
     print(data)
     print(type(data))
@@ -530,4 +532,4 @@ def doct_info():
     print(type(data))
     return render_template('doct_info.html', data=data)
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
