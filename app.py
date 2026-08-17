@@ -11,13 +11,21 @@ from datetime import datetime
 from sklearn.tree import DecisionTreeClassifier
 import datetime
 import time,requests
+from dotenv import load_dotenv
+
+load_dotenv()
 app=Flask(__name__)
-app.config['SECRET_KEY']='attendance system'
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 def data_bace():
-    db = mysql.connector.connect(host="localhost", user="root", passwd="", database="dermatology")
-    cur=db.cursor()
-    return db,cur
+    db = mysql.connector.connect(
+        host=os.getenv("DB_HOST"),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASSWORD"),
+        database=os.getenv("DB_NAME")
+    )
+    cur = db.cursor()
+    return db, cur
 
 
 @app.route('/')
@@ -37,7 +45,7 @@ def admin():
         password = request.form['userPassword']
 
        
-        if useremail=="admin@gmail.com" and password=="admin":
+        if (useremail == os.getenv("ADMIN_EMAIL") and password == os.getenv("ADMIN_PASSWORD")):
             flash("Welcome Admin","success")
             return render_template('admindash.html')
         else:
@@ -135,7 +143,31 @@ def upload():
         test_image = np.expand_dims(test_image, axis=0)
         result = new_model.predict(test_image)
         print(np.argmax(result))
-        classes= ['Acne and Rosacea Photos','Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions','Atopic Dermatitis Photos' 'Bullous Disease Photos','Cellulitis Impetigo and other Bacterial Infections','Eczema Photos','Exanthems and Drug Eruptions','Hair Loss Photos Alopecia and other Hair Diseases','Herpes HPV and other STDs Photos','Light Diseases and Disorders of Pigmentation','Lupus and other Connective Tissue diseases','Melanoma Skin Cancer Nevi and Moles','Nail Fungus and other Nail Disease','Poison Ivy Photos and other Contact Dermatitis','Psoriasis pictures Lichen Planus and related diseases','Scabies Lyme Disease and other Infestations and Bites','Seborrheic Keratoses and other Benign Tumors','Systemic Disease','Tinea Ringworm Candidiasis and other Fungal Infections','Urticaria Hives','Vascular Tumors','Vasculitis Photos','Warts Molluscum and other Viral Infections']
+        classes = [
+            'Acne and Rosacea',
+            'Actinic Keratosis Basal Cell Carcinoma and other Malignant Lesions',
+            'Atopic Dermatitis',
+            'Bullous Disease',
+            'Cellulitis Impetigo and other Bacterial Infections',
+            'Eczema disease',
+            'Exanthems and Drug Eruptions',
+            'Hair Loss Photos Alopecia and other Hair Diseases',
+            'Herpes HPV and other STDs Photos',
+            'Light Diseases and Disorders of Pigmentation',
+            'Lupus and other Connective Tissue diseases',
+            'Melanoma Skin Cancer Nevi and Moles',
+            'Nail Fungus and other Nail Disease',
+            'Poison Ivy Photos and other Contact Dermatitis',
+            'Psoriasis pictures Lichen Planus and related diseases',
+            'Scabies Lyme Disease and other Infestations and Bites',
+            'Seborrheic Keratoses and other Benign Tumors',
+            'Systemic Disease',
+            'Tinea Ringworm Candidiasis and other Fungal Infections',
+            'Urticaria Hives',
+            'Vascular Tumors',
+            'Vasculitis',
+            'Warts Molluscum and other Viral Infections'
+            ]
         prediction=classes[np.argmax(result)]
         print(prediction)
         if prediction=="Acne and Rosacea":
@@ -220,8 +252,9 @@ def upload():
         cur.execute(sql,val)
         db.commit()
         sql="select * from doctor"
-        cur.execute(sql,db)
+        cur.execute(sql)
         data=cur.fetchall()
+        print("Doctors =", data)
         db.commit()
         db.close()
         return render_template("result.html",image_name=fn, text=prediction,msg=msg , msg1=msg1,data=data)
@@ -235,7 +268,7 @@ def send_image(filename):
 def expertdash():
     db,cur=data_bace()
     sql="select * from users where user_Email='"+session['useremail']+"' "
-    cur.execute(sql,db)
+    cur.execute(sql)
     data=cur.fetchall()
     return render_template('expertdash.html', data=data)
 
@@ -243,7 +276,7 @@ def expertdash():
 def doctor_info():
     db,cur=data_bace()
     sql="select * from appointment where pemail='"+session['useremail']+"'"
-    cur.execute(sql,db)
+    cur.execute(sql)
     data=cur.fetchall()
     db.commit()
     db.close()
@@ -280,7 +313,7 @@ def patient_request():
     db,cur=data_bace()
     print(session['useremail'])
     sql="select DISTINCT patient_email, patient_name from chatting where doctor_email='"+session['useremail']+"' "
-    cur.execute(sql,db)
+    cur.execute(sql)
     data=cur.fetchall()
     db.commit()
     db.close()
@@ -314,14 +347,15 @@ def patientchat(email="",name=""):
     sql_select = "SELECT * FROM chatting where doctor_email='"+session['useremail']+"' and patient_email='"+email+"' ORDER BY chat_date, chat_time"
     cur.execute(sql_select)
     alldata = cur.fetchall()
-    print(alldata[0][2])
+    if alldata:
+        print(alldata[0][2])
     return render_template('patientchat.html',doctor_email=useremail,patient_email=email,patient_name=name, alldata=alldata)
 
 @app.route('/patient')
 def patient():
     db,cur=data_bace()
     sql="select * from users"
-    cur.execute(sql,db)
+    cur.execute(sql)
     data=cur.fetchall()
     return render_template('patient.html',data=data)
 
@@ -385,7 +419,7 @@ def appointment(name="",email="",hname="",addr=""):
     timeStamp = datetime.datetime.fromtimestamp(ts).strftime('%H:%M:%S')
     db,cur=data_bace()
     sql="SELECT * FROM disease_info where email='"+session['useremail']+"' ORDER BY id DESC LIMIT 1";
-    cur.execute(sql,db)
+    cur.execute(sql)
     data=cur.fetchall()
     db.commit()
     sq="insert into appointment(pname,pemail,age,gender,bmi,infection,smoking,days,image,disease,severity,date,time,hname,address,dname,demail) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
@@ -400,7 +434,7 @@ def appointment(name="",email="",hname="",addr=""):
 def view_appointments():
     db,cur=data_bace()
     sql="select * from appointment where demail='"+session['useremail']+"'"
-    cur.execute(sql,db)
+    cur.execute(sql)
     data=cur.fetchall()
     return render_template('view_appointments.html',data=data)
 
@@ -411,7 +445,7 @@ def appointment_status(id=0):
         date=request.form['date']
         db,cur=data_bace()
         sql="update appointment set status='Accepted', accepted_date='"+date+"' where id='"+id+"'"
-        cur.execute(sql,db)
+        cur.execute(sql)
         db.commit()
         flash("appointment accepted","success")
         return redirect(url_for('view_appointments'))
@@ -424,7 +458,7 @@ def feedback():
         msg=request.form['msg']
         db,cur=data_bace()
         sql="update appointment set status='Accepted', feedback='"+msg+"' where id='"+id+"'"
-        cur.execute(sql,db)
+        cur.execute(sql)
         db.commit()
         flash("feedback submitted","success")
         return redirect(url_for('doctor_info'))
@@ -449,7 +483,7 @@ from googletrans import Translator
 def history():
     db, cur = data_bace()
     sql="select * from disease_info where email='"+session['useremail']+"'"
-    cur.execute(sql,db)
+    cur.execute(sql)
     data = cur.fetchall()
     print(data)
     print(type(data))
@@ -481,7 +515,7 @@ def set_language():
 def feedback_info():
     db, cur = data_bace()
     sql="select * from appointment"
-    cur.execute(sql,db)
+    cur.execute(sql)
     data = cur.fetchall()
     print(data)
     print(type(data))
@@ -490,7 +524,7 @@ def feedback_info():
 def doct_info():
     db, cur = data_bace()
     sql="select * from doctor"
-    cur.execute(sql,db)
+    cur.execute(sql)
     data = cur.fetchall()
     print(data)
     print(type(data))
